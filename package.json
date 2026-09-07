@@ -1,0 +1,11 @@
+{
+  "name": "opencode-telegram-ha-vps",
+  "version": "1.0.0",
+  "private": true,
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "health": "ROLE=vps node server.js",
+    "monitor": "node monitor-vps.js",
+    "start": "bash start.sh"
+  }
+}

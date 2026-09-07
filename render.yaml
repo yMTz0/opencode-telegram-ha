@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: opencode-telegram-ha
+    runtime: docker
+    plan: free
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: ROLE
+        value: vps
+      - key: OPENCODE_API_URL
+        value: http://localhost:4096
+      - key: OPENCODE_MODEL_PROVIDER
+        value: opencode
+      - key: OPENCODE_MODEL_ID
+        value: big-pickle
+      - key: BOT_LOCALE
+        value: pt
+      - key: OPENCODE_AUTO_RESTART_ENABLED
+        value: true
+      - key: CHECK_INTERVAL_SEC
+        value: 15
+      - key: TAKEOVER_AFTER_SEC
+        value: 90
+      - key: STEPDOWN_STABLE_SEC
+        value: 90
+      # PREENCHER NO PAINEL DO RENDER (não commitar!):
+      # - key: TELEGRAM_BOT_TOKEN (Sync: manual, secret)
+      # - key: TELEGRAM_ALLOWED_USER_ID (Sync: manual)
