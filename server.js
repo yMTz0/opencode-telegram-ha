@@ -50,7 +50,13 @@ function json(res, code, obj) {
 const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, 'http://x');
 
-  if (req.method === 'GET' && (url.pathname === '/health' || url.pathname === '/status')) {
+  // GET = JSON cheio. HEAD = só 200 (UptimeRobot checa com HEAD).
+  if ((req.method === 'GET' || req.method === 'HEAD') && (url.pathname === '/health' || url.pathname === '/status')) {
+    if (req.method === 'HEAD') {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end();
+      return;
+    }
     const [oc, bot] = await Promise.all([checkOpencode(), checkBot()]);
     return json(res, 200, {
       role: state.role,
@@ -111,4 +117,5 @@ const server = http.createServer(async (req, res) => {
   return json(res, 404, { ok: false, error: 'not found' });
 });
 
-server.listen(PORT, () => console.log(`[ha-server] role=${ROLE} ouvindo na porta ${PORT}`));
+const HOST = process.env.HOST || (ROLE === 'pc' ? '127.0.0.1' : '0.0.0.0');
+server.listen(PORT, HOST, () => console.log(`[ha-server] role=${ROLE} ouvindo em ${HOST}:${PORT}`));

@@ -9,10 +9,12 @@ RUN apt-get update && apt-get install -y curl git bash procps && rm -rf /var/lib
 
 WORKDIR /app
 COPY package.json server.js monitor-vps.js start.sh ./
+COPY workspace /app/workspace
 RUN chmod +x start.sh && mkdir -p /app/data
 ENV ROLE=vps \
     OPENCODE_API_URL=http://localhost:4096 \
     OPENCODE_TELEGRAM_HOME=/app/data \
+    OPEN_BROWSER_ROOTS=/app/workspace \
     HEALTH_PORT=10000 \
     CHECK_INTERVAL_SEC=15 \
     TAKEOVER_AFTER_SEC=90 \
